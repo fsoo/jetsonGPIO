@@ -4,8 +4,25 @@
 #include <string>
 #include <unistd.h>
 #include "jetsonGPIO.h"
+#include <boost/python.hpp>
 using namespace std;
 
+
+int main (int argc, char *argv[]){
+    jetsonGPIO outpin = 388;
+    gpioExport(outpin);
+    gpioSetDirection(outpin, outputPin);
+    for(int i=0; i< 100; i++){
+	std::cout << "on" << std::endl;    
+        gpioSetValue(outpin, on);
+   	usleep(1000000);
+	std::cout << "off" << std::endl;
+	gpioSetValue(outpin,off);
+	usleep(1000000); 
+    }
+}
+
+/*
 int main(int argc, char *argv[]){
 
     cout << "Testing the GPIO Pins" << endl;
@@ -63,5 +80,5 @@ int main(int argc, char *argv[]){
     gpioExport(pushButton);      // unexport the push button
     return 0;
 }
-
+*/
 

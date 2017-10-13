@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <poll.h>
 #include "jetsonGPIO.h"
-
+#include <boost/python.hpp>
 
 //
 // gpioExport
@@ -36,6 +36,19 @@ int gpioExport ( jetsonGPIO gpio )
     close(fileDescriptor);
 
     return 0;
+}
+
+BOOST_PYTHON_MODULE(jetsonGPIO) {
+    using namespace boost::python;
+    def("gpioExport",gpioExport);
+    def("gpioUnexport",gpioUnexport);
+    def("gpioSetDirection",gpioSetDirection);
+    def("gpioSetValue",gpioSetValue);
+    def("gpioGetValue",gpioGetValue);
+    def("gpioSetEdge",gpioSetEdge);
+    def("gpioOpen",gpioSetValue);
+    def("gpioClose",gpioClose);
+    def("gpioActiveLow",gpioActiveLow);
 }
 
 //
@@ -168,7 +181,6 @@ int gpioGetValue ( jetsonGPIO gpio, unsigned int *value)
     return 0;
 }
 
-
 //
 // gpioSetEdge
 // Set the edge of the GPIO pin
@@ -197,6 +209,7 @@ int gpioSetEdge ( jetsonGPIO gpio, char *edge )
     return 0;
 }
 
+
 //
 // gpioOpen
 // Open the given pin for reading
@@ -217,6 +230,8 @@ int gpioOpen( jetsonGPIO gpio )
     return fileDescriptor;
 }
 
+
+
 //
 // gpioClose
 // Close the given file descriptor 
@@ -224,6 +239,7 @@ int gpioClose ( int fileDescriptor )
 {
     return close(fileDescriptor);
 }
+
 
 // gpioActiveLow
 // Set the active_low attribute of the GPIO pin to 1 or 0
@@ -258,4 +274,5 @@ int gpioActiveLow ( jetsonGPIO gpio, unsigned int value )
     close(fileDescriptor);
     return 0;
 }
+
 
